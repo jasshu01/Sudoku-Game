@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+        * {
+            padding: 0%;
+            margin: 0%;
+        }
+        
+        .game {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .board {
+            /* border: 4px solid red; */
+            display: grid;
+            width: 36vw;
+            height: 36vw;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            justify-content: center;
+            align-items: center;
+            margin-top: 2vh;
+        }
+        
+        .board div:nth-child(9n) {
+            border-right: 3px solid red;
+            /* background-color: blue; */
+        }
+        
+        .board div:nth-child(9n + 1) {
+            border-left: 3px solid red;
+            /* background-color: blue; */
+        }
+        
+        .board div:nth-child(n/9) {
+            /* border-left: 3px solid red; */
+            background-color: rgb(22, 22, 158);
+        }
+        
+        .board div:nth-child(9n + 1) {
+            /* border-left: 3px solid red; */
+            background-color: white;
+        }
+        
+        .miniBox {
+            border: 1px solid black;
+            height: 4vw;
+            width: 4vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: poleter;
+        }
+        
+        .input {
+            display: grid;
+            width: 12vw;
+            height: 12vw;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            justify-content: center;
+            align-items: center;
+            margin-top: 2vh;
+            margin-left: 20vw;
+        }
+        
+        .number {
+            width: 4vw;
+            height: 4vw;
+            border: 2px solid red;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .number button {
+            width: 4vw;
+            height: 4vw;
+            border: 2px solid red;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: poleter;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game">
+        <div class="board">
+            <div class="miniBox">1</div>
+            <div class="miniBox">2</div>
+            <div class="miniBox">3</div>
+            <div class="miniBox">4</div>
+            <div class="miniBox">5</div>
+            <div class="miniBox">6</div>
+            <div class="miniBox">7</div>
+            <div class="miniBox">8</div>
+            <div class="miniBox">9</div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+        </div>
+        <div class="input">
+            <div class="number"><button class="inBtn">1</button></div>
+            <div class="number"><button class="inBtn">2</button></div>
+            <div class="number"><button class="inBtn">3</button></div>
+            <div class="number"><button class="inBtn">4</button></div>
+            <div class="number"><button class="inBtn">5</button></div>
+            <div class="number"><button class="inBtn">6</button></div>
+            <div class="number"><button class="inBtn">7</button></div>
+            <div class="number"><button class="inBtn">8</button></div>
+            <div class="number"><button class="inBtn">9</button></div>
+        </div>
+    </div>
+
+    <script>
+        let btns = document.getElementsByClassName("inBtn");
+        let locked = false;
+        let changeIn, idx1, idx2;
+        let bigBoxes = document.getElementsByClassName("box");
+        let prevIndex;
+        let miniBoxes = document.getElementsByClassName("miniBox");
+
+        Array.from(btns).forEach((element) => {
+            element.addEventListener("click", () => {
+                if (changeIn === undefined) return;
+
+                //console.log(element.innerText);
+                //console.log(changeIn);
+                changeIn.innerText = element.innerText;
+            });
+        });
+
+        let board = new Array(9);
+        for (i = 0; i < 9; i++) {
+            board[i] = new Array(9);
+        }
+        createGame();
+
+        function createGame() {
+            locked = false;
+            changeIn = undefined;
+            prevIndex = undefined;
+            for (i = 0; i < 9; i++)
+                for (j = 0; j < 9; j++) board[i][j] = "";
+
+            const positions = [];
+            const values = [];
+            for (k = 0; k < 17; k++) {
+                let pos = Math.floor(Math.random() * 81);
+
+                while (positions.includes(pos)) {
+                    pos = Math.floor(Math.random() * 81);
+                }
+                let val = Math.floor(Math.random() * 9) + 1;
+
+                index1 = Math.floor(pos / 9);
+                index2 = pos - index1 * 9;
+                // //console.log(pos, index1, index2);
+                board[index1][index2] = val;
+
+                positions.push(pos);
+                values.push(val);
+            }
+            if (isValidSudoku(board)) {
+                console.log("valid");
+
+                for (i = 0; i < 9; i++) {
+                    for (j = 0; j < 9; j++) {
+                        let idx = i * 9 + j;
+                        let miniBox = document.getElementsByClassName("miniBox")[idx];
+                        miniBox.innerText = board[i][j];
+                        miniBox.style.fontSize = "30px";
+                    }
+                }
+            } else {
+                console.log("invalid");
+                createGame();
+            }
+
+            //console.log(positions);
+            //console.log(values);
+        }
+
+        function isValidSudoku(board) {
+            let row = new Array(9),
+                col = new Array(9),
+                box = new Array(3);
+
+            for (i = 0; i < 9; i++) row[i] = new Array();
+            for (i = 0; i < 9; i++) col[i] = new Array();
+
+            for (i = 0; i < 3; i++) {
+                box[i] = new Array(3);
+                for (j = 0; j < 3; j++) {
+                    box[i][j] = new Array(9);
+                }
+            }
+
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    if (board[i][j] == "") continue;
+                    p = Math.floor(i / 3);
+                    q = Math.floor(j / 3);
+                    // console.log(
+                    //     row[i].includes(board[i][j]),
+                    //     col[j].includes(board[i][j]),
+                    //     box[p][q].includes(board[i][j])
+                    // );
+
+                    if (
+                        row[i].includes(board[i][j]) ||
+                        col[j].includes(board[i][j]) ||
+                        box[p][q].includes(board[i][j])
+                    )
+                        return false;
+
+                    row[i].push(board[i][j]);
+                    col[j].push(board[i][j]);
+                    box[p][q].push(board[i][j]);
+                }
+            }
+            // console.log(row, col, box);
+            return true;
+        }
+
+        function hilightRow(index) {
+            for (j = 0; j < 9; j++) {
+                document.getElementsByClassName("miniBox")[
+                    index * 9 + j
+                ].style.backgroundColor = "yellow";
+            }
+        }
+
+        function hilightCol(index2) {
+            for (j = 0; j < 9; j++) {
+                document.getElementsByClassName("miniBox")[
+                    index2 + 9 * j
+                ].style.backgroundColor = "yellow";
+            }
+        }
+
+        function hilightBox(index1, index2) {
+            index1 = Math.floor(index1) * 3;
+            index2 = Math.floor(index2) * 3;
+
+            for (i = index1; i < index1 + 3; i++) {
+                for (j = index2; j < index2 + 3; j++) {
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.backgroundColor = "yellow";
+                }
+            }
+        }
+
+        function show(index) {
+            index1 = Math.floor(index / 9);
+            index2 = index - index1 * 9;
+
+            //console.log(index, index1, index2);
+            hilightCol(index2);
+            hilightRow(index1);
+            hilightBox(index1 / 3, index2 / 3);
+
+            document.getElementsByClassName("miniBox")[
+                index
+            ].style.backgroundColor = "red";
+        }
+
+        function clear(index) {
+            index1 = Math.floor(index / 9);
+            index2 = index - index1 * 9;
+
+            for (j = 0; j < 9; j++) {
+                document.getElementsByClassName("miniBox")[
+                    index1 * 9 + j
+                ].style.backgroundColor = "white";
+            }
+            for (j = 0; j < 9; j++) {
+                document.getElementsByClassName("miniBox")[
+                    index2 + 9 * j
+                ].style.backgroundColor = "white";
+            }
+
+            index1 = Math.floor(index1 / 3) * 3;
+            index2 = Math.floor(index2 / 3) * 3;
+            for (i = index1; i < index1 + 3; i++) {
+                for (j = index2; j < index2 + 3; j++) {
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.backgroundColor = "white";
+                }
+            }
+        }
+
+        Array.from(miniBoxes).forEach((miniElement, index) => {
+            miniElement.addEventListener("click", () => {
+                if (prevIndex !== undefined) {
+                    locked = false;
+                    clear(prevIndex);
+                }
+                miniElement.innerText = "1";
+                locked = true;
+                show(index);
+
+                changeIn = miniElement;
+                prevIndex = index;
+            });
+        });
+
+        Array.from(miniBoxes).forEach((miniElement, index) => {
+            miniElement.addEventListener("mouseenter", () => {
+                show(index);
+            });
+
+            miniElement.addEventListener("mouseout", () => {
+                if (prevIndex !== index) {
+                    clear(index);
+                    if (prevIndex != undefined) show(prevIndex);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
