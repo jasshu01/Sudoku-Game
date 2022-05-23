@@ -293,15 +293,16 @@
         document
             .getElementById("ResetGame")
             .addEventListener("click", function() {
-                document.getElementById("StartGame").style.display = "block";
-                document.getElementById("ResetGame").style.display = "block";
-                document.getElementById("duration").style.display = "none";
-                for (i = 0; i < 9; i++)
-                    for (j = 0; j < 9; j++) board[i][j] = "";
+                // document.getElementById("StartGame").style.display = "block";
+                // document.getElementById("ResetGame").style.display = "block";
+                // document.getElementById("duration").style.display = "none";
+                // for (i = 0; i < 9; i++)
+                //     for (j = 0; j < 9; j++) board[i][j] = "";
 
-                for (i = 0; i < 81; i++) {
-                    miniBoxes[i].innerText = "";
-                }
+                // for (i = 0; i < 81; i++) {
+                //     miniBoxes[i].innerText = "";
+                // }
+                location.reload();
             });
         // assignEvents();
 
