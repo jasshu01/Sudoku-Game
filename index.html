@@ -13,6 +13,20 @@
             margin: 0%;
         }
         
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            height: 10vh;
+            font-size: 30px;
+        }
+        
+        nav h1 {
+            margin-right: 10vw;
+        }
+        
         .game {
             display: flex;
             justify-content: center;
@@ -29,26 +43,6 @@
             justify-content: center;
             align-items: center;
             margin-top: 2vh;
-        }
-        
-        .board div:nth-child(9n) {
-            border-right: 3px solid red;
-            /* background-color: blue; */
-        }
-        
-        .board div:nth-child(9n + 1) {
-            border-left: 3px solid red;
-            /* background-color: blue; */
-        }
-        
-        .board div:nth-child(n/9) {
-            /* border-left: 3px solid red; */
-            background-color: rgb(22, 22, 158);
-        }
-        
-        .board div:nth-child(9n + 1) {
-            /* border-left: 3px solid red; */
-            background-color: white;
         }
         
         .miniBox {
@@ -91,23 +85,46 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: poleter;
+            cursor: pointer;
+        }
+        
+        .btns {
+            width: 8vw;
+            height: 4vw;
+            border: 2px solid red;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 2vh;
+            margin-right: 10px;
+        }
+        
+        #duration {
+            width: 30vw;
         }
     </style>
 </head>
 
 <body>
+    <nav>
+        <h1>Play Sudoku!</h1>
+        <div id="dur" style="display: flex">
+            Duration : <span id="duration"> </span>
+        </div>
+    </nav>
     <div class="game">
         <div class="board">
-            <div class="miniBox">1</div>
-            <div class="miniBox">2</div>
-            <div class="miniBox">3</div>
-            <div class="miniBox">4</div>
-            <div class="miniBox">5</div>
-            <div class="miniBox">6</div>
-            <div class="miniBox">7</div>
-            <div class="miniBox">8</div>
-            <div class="miniBox">9</div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
+            <div class="miniBox"></div>
 
             <div class="miniBox"></div>
             <div class="miniBox"></div>
@@ -189,53 +206,116 @@
             <div class="miniBox"></div>
             <div class="miniBox"></div>
         </div>
-        <div class="input">
-            <div class="number"><button class="inBtn">1</button></div>
-            <div class="number"><button class="inBtn">2</button></div>
-            <div class="number"><button class="inBtn">3</button></div>
-            <div class="number"><button class="inBtn">4</button></div>
-            <div class="number"><button class="inBtn">5</button></div>
-            <div class="number"><button class="inBtn">6</button></div>
-            <div class="number"><button class="inBtn">7</button></div>
-            <div class="number"><button class="inBtn">8</button></div>
-            <div class="number"><button class="inBtn">9</button></div>
+
+        <div>
+            <div class="input">
+                <div class="number"><button class="inBtn">1</button></div>
+                <div class="number"><button class="inBtn">2</button></div>
+                <div class="number"><button class="inBtn">3</button></div>
+                <div class="number"><button class="inBtn">4</button></div>
+                <div class="number"><button class="inBtn">5</button></div>
+                <div class="number"><button class="inBtn">6</button></div>
+                <div class="number"><button class="inBtn">7</button></div>
+                <div class="number"><button class="inBtn">8</button></div>
+                <div class="number"><button class="inBtn">9</button></div>
+            </div>
+
+            <div class="input">
+                <button class="btns" id="StartGame">Start Game</button>
+                <button class="btns" id="ResetGame">Reset Game</button>
+            </div>
         </div>
     </div>
 
     <script>
+        for (i = 0; i < 9; i++) {
+            for (j = 0; j < 9; j++) {
+                if (i == 0)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderTop = "3px solid red";
+
+                if (i == 8)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderBottom = "3px solid red";
+
+                if (j == 0)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderLeft = "3px solid red";
+
+                if (j == 8)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderRight = "3px solid red";
+
+                if (i % 3 == 0)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderTop = "3px solid red";
+                if (j % 3 == 0)
+                    document.getElementsByClassName("miniBox")[
+                        i * 9 + j
+                    ].style.borderLeft = "3px solid red";
+            }
+        }
+
+        document.getElementById("StartGame").style.display = "block";
+        document.getElementById("ResetGame").style.display = "none";
         let btns = document.getElementsByClassName("inBtn");
         let locked = false;
         let changeIn, idx1, idx2;
         let bigBoxes = document.getElementsByClassName("box");
         let prevIndex;
         let miniBoxes = document.getElementsByClassName("miniBox");
-
-        Array.from(btns).forEach((element) => {
-            element.addEventListener("click", () => {
-                if (changeIn === undefined) return;
-
-                //console.log(element.innerText);
-                //console.log(changeIn);
-                changeIn.innerText = element.innerText;
-            });
-        });
-
+        let positions = [];
         let board = new Array(9);
+        let stTime = StartTime();
         for (i = 0; i < 9; i++) {
             board[i] = new Array(9);
         }
-        createGame();
+        // createGame();
+        document.getElementById("dur").style.display = "none";
+        document
+            .getElementById("StartGame")
+            .addEventListener("click", function() {
+                createGame();
+                stTime = StartTime();
+                document.getElementById("dur").style.display = "block";
+
+                document.getElementById("duration").innerHTML = " 00:00:00";
+                document.getElementById("StartGame").style.display = "none";
+
+                document.getElementById("ResetGame").style.display = "block";
+            });
+
+        document
+            .getElementById("ResetGame")
+            .addEventListener("click", function() {
+                document.getElementById("StartGame").style.display = "block";
+                document.getElementById("ResetGame").style.display = "block";
+                document.getElementById("duration").style.display = "none";
+                for (i = 0; i < 9; i++)
+                    for (j = 0; j < 9; j++) board[i][j] = "";
+
+                for (i = 0; i < 81; i++) {
+                    miniBoxes[i].innerText = "";
+                }
+            });
 
         function createGame() {
             locked = false;
             changeIn = undefined;
             prevIndex = undefined;
+
             for (i = 0; i < 9; i++)
                 for (j = 0; j < 9; j++) board[i][j] = "";
 
-            const positions = [];
+            positions = [];
+
             const values = [];
-            for (k = 0; k < 17; k++) {
+            for (k = 0; k < 25; k++) {
                 let pos = Math.floor(Math.random() * 81);
 
                 while (positions.includes(pos)) {
@@ -252,18 +332,23 @@
                 values.push(val);
             }
             if (isValidSudoku(board)) {
-                console.log("valid");
-
+                // console.log("valid");
+                stTime = StartTime();
                 for (i = 0; i < 9; i++) {
                     for (j = 0; j < 9; j++) {
                         let idx = i * 9 + j;
                         let miniBox = document.getElementsByClassName("miniBox")[idx];
                         miniBox.innerText = board[i][j];
-                        miniBox.style.fontSize = "30px";
+                        miniBox.style.fontSize = "40px";
+                        miniBox.style.color = "green";
+                        miniBox.style.fontWeight = "bold";
+                        miniBox.style.cursor = "pointer";
+                        miniBox.addEventListener("click", () => {});
                     }
                 }
+                return;
             } else {
-                console.log("invalid");
+                // console.log("invalid");
                 createGame();
             }
 
@@ -291,11 +376,6 @@
                     if (board[i][j] == "") continue;
                     p = Math.floor(i / 3);
                     q = Math.floor(j / 3);
-                    // console.log(
-                    //     row[i].includes(board[i][j]),
-                    //     col[j].includes(board[i][j]),
-                    //     box[p][q].includes(board[i][j])
-                    // );
 
                     if (
                         row[i].includes(board[i][j]) ||
@@ -313,23 +393,23 @@
             return true;
         }
 
-        function hilightRow(index) {
+        function hilightRow(index, clr) {
             for (j = 0; j < 9; j++) {
                 document.getElementsByClassName("miniBox")[
                     index * 9 + j
-                ].style.backgroundColor = "yellow";
+                ].style.backgroundColor = clr;
             }
         }
 
-        function hilightCol(index2) {
+        function hilightCol(index2, clr) {
             for (j = 0; j < 9; j++) {
                 document.getElementsByClassName("miniBox")[
                     index2 + 9 * j
-                ].style.backgroundColor = "yellow";
+                ].style.backgroundColor = clr;
             }
         }
 
-        function hilightBox(index1, index2) {
+        function hilightBox(index1, index2, clr) {
             index1 = Math.floor(index1) * 3;
             index2 = Math.floor(index2) * 3;
 
@@ -337,19 +417,20 @@
                 for (j = index2; j < index2 + 3; j++) {
                     document.getElementsByClassName("miniBox")[
                         i * 9 + j
-                    ].style.backgroundColor = "yellow";
+                    ].style.backgroundColor = clr;
                 }
             }
         }
 
-        function show(index) {
+        function show(index, clr) {
             index1 = Math.floor(index / 9);
             index2 = index - index1 * 9;
-
+            idx1 = index1;
+            idx2 = index2;
             //console.log(index, index1, index2);
-            hilightCol(index2);
-            hilightRow(index1);
-            hilightBox(index1 / 3, index2 / 3);
+            hilightCol(index2, clr);
+            hilightRow(index1, clr);
+            hilightBox(index1 / 3, index2 / 3, clr);
 
             document.getElementsByClassName("miniBox")[
                 index
@@ -382,30 +463,106 @@
             }
         }
 
-        Array.from(miniBoxes).forEach((miniElement, index) => {
-            miniElement.addEventListener("click", () => {
-                if (prevIndex !== undefined) {
-                    locked = false;
-                    clear(prevIndex);
-                }
-                miniElement.innerText = "1";
-                locked = true;
-                show(index);
+        function StartTime() {
+            var startTime = new Date();
+            var startHours = startTime.getHours();
+            var startMinutes = startTime.getMinutes();
+            var startSeconds = startTime.getSeconds();
+            var startAmPm = startHours >= 12 ? "PM" : "AM";
+            startHours = startHours % 12;
+            startHours = startHours ? startHours : 12; // the hour '0' should be '12'
+            startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
+            startSeconds = startSeconds < 10 ? "0" + startSeconds : startSeconds;
+            var startStrTime =
+                startHours +
+                ":" +
+                startMinutes +
+                ":" +
+                startSeconds +
+                " " +
+                startAmPm;
 
-                changeIn = miniElement;
-                prevIndex = index;
-            });
+            return startTime;
+        }
+
+        Timer();
+
+        function Timer() {
+            var time = new Date();
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+            var ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            var strTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
+
+            d = Number(time - stTime) / 1000;
+            var h = Math.floor(d / 3600);
+            var m = Math.floor((d % 3600) / 60);
+            var s = Math.floor((d % 3600) % 60);
+
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+            var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+
+            document.getElementById("duration").innerHTML =
+                " " + hDisplay + mDisplay + sDisplay;
+            setTimeout(Timer, 1000);
+        }
+
+        Array.from(miniBoxes).forEach((miniElement, index) => {
+            if (!positions.includes(index)) {
+                miniElement.addEventListener("click", () => {
+                    if (prevIndex !== undefined) {
+                        locked = false;
+                        clear(prevIndex);
+                    }
+                    miniElement.innerText = "1";
+
+                    document.getElementsByClassName("inBtn")[0].click();
+                    locked = true;
+
+                    changeIn = miniElement;
+                    prevIndex = index;
+                    show(index, "yellow");
+                });
+            }
         });
 
         Array.from(miniBoxes).forEach((miniElement, index) => {
             miniElement.addEventListener("mouseenter", () => {
-                show(index);
+                show(index, "lightblue");
             });
 
             miniElement.addEventListener("mouseout", () => {
                 if (prevIndex !== index) {
                     clear(index);
-                    if (prevIndex != undefined) show(prevIndex);
+                    if (prevIndex != undefined) show(prevIndex, "yellow");
+                }
+            });
+        });
+
+        Array.from(btns).forEach((element) => {
+            element.addEventListener("click", () => {
+                if (changeIn === undefined) return;
+
+                changeIn.innerText = element.innerText;
+                // console.log(idx1, idx2);
+                board[idx1][idx2] = parseInt(element.innerText);
+
+                emptyCell = false;
+                for (i = 0; i < 9; i++)
+                    if (board[i].includes("")) emptyCell = true;
+
+                console.log(emptyCell);
+
+                if (!emptyCell) {
+                    if (isValidSudoku(board))
+                        document.getElementsByClassName("board")[0].innerHTML =
+                        "YOU SOLVED IT!";
                 }
             });
         });
