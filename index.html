@@ -263,6 +263,7 @@
 
         document.getElementById("StartGame").style.display = "block";
         document.getElementById("ResetGame").style.display = "none";
+        document.getElementById("dur").style.display = "none";
         let btns = document.getElementsByClassName("inBtn");
         let locked = false;
         let changeIn, idx1, idx2;
@@ -275,8 +276,7 @@
         for (i = 0; i < 9; i++) {
             board[i] = new Array(9);
         }
-        // createGame();
-        document.getElementById("dur").style.display = "none";
+
         document
             .getElementById("StartGame")
             .addEventListener("click", function() {
@@ -315,7 +315,7 @@
             positions = [];
 
             const values = [];
-            for (k = 0; k < 25; k++) {
+            for (k = 0; k < 17; k++) {
                 let pos = Math.floor(Math.random() * 81);
 
                 while (positions.includes(pos)) {
@@ -339,13 +339,67 @@
                         let idx = i * 9 + j;
                         let miniBox = document.getElementsByClassName("miniBox")[idx];
                         miniBox.innerText = board[i][j];
-                        miniBox.style.fontSize = "40px";
+                        miniBox.style.fontSize = "4rem";
                         miniBox.style.color = "green";
                         miniBox.style.fontWeight = "bold";
                         miniBox.style.cursor = "pointer";
                         miniBox.addEventListener("click", () => {});
                     }
                 }
+                Array.from(miniBoxes).forEach((miniElement, index) => {
+                    if (!positions.includes(index)) {
+                        miniElement.addEventListener("click", () => {
+                            if (prevIndex !== undefined) {
+                                locked = false;
+                                clear(prevIndex);
+                            }
+                            miniElement.innerText = "1";
+
+                            document.getElementsByClassName("inBtn")[0].click();
+                            locked = true;
+
+                            changeIn = miniElement;
+                            prevIndex = index;
+                            show(index, "yellow");
+                        });
+                    }
+                });
+
+                Array.from(miniBoxes).forEach((miniElement, index) => {
+                    miniElement.addEventListener("mouseenter", () => {
+                        show(index, "lightblue");
+                    });
+
+                    miniElement.addEventListener("mouseout", () => {
+                        if (prevIndex !== index) {
+                            clear(index);
+                            if (prevIndex != undefined) show(prevIndex, "yellow");
+                        }
+                    });
+                });
+
+                Array.from(btns).forEach((element) => {
+                    element.addEventListener("click", () => {
+                        if (changeIn === undefined) return;
+
+                        changeIn.innerText = element.innerText;
+                        // console.log(idx1, idx2);
+                        board[idx1][idx2] = parseInt(element.innerText);
+
+                        emptyCell = false;
+                        for (i = 0; i < 9; i++)
+                            if (board[i].includes("")) emptyCell = true;
+
+                        console.log(emptyCell);
+
+                        if (!emptyCell) {
+                            if (isValidSudoku(board))
+                                document.getElementsByClassName("board")[0].innerHTML =
+                                "YOU SOLVED IT!";
+                        }
+                    });
+                });
+
                 return;
             } else {
                 // console.log("invalid");
@@ -512,60 +566,6 @@
                 " " + hDisplay + mDisplay + sDisplay;
             setTimeout(Timer, 1000);
         }
-
-        Array.from(miniBoxes).forEach((miniElement, index) => {
-            if (!positions.includes(index)) {
-                miniElement.addEventListener("click", () => {
-                    if (prevIndex !== undefined) {
-                        locked = false;
-                        clear(prevIndex);
-                    }
-                    miniElement.innerText = "1";
-
-                    document.getElementsByClassName("inBtn")[0].click();
-                    locked = true;
-
-                    changeIn = miniElement;
-                    prevIndex = index;
-                    show(index, "yellow");
-                });
-            }
-        });
-
-        Array.from(miniBoxes).forEach((miniElement, index) => {
-            miniElement.addEventListener("mouseenter", () => {
-                show(index, "lightblue");
-            });
-
-            miniElement.addEventListener("mouseout", () => {
-                if (prevIndex !== index) {
-                    clear(index);
-                    if (prevIndex != undefined) show(prevIndex, "yellow");
-                }
-            });
-        });
-
-        Array.from(btns).forEach((element) => {
-            element.addEventListener("click", () => {
-                if (changeIn === undefined) return;
-
-                changeIn.innerText = element.innerText;
-                // console.log(idx1, idx2);
-                board[idx1][idx2] = parseInt(element.innerText);
-
-                emptyCell = false;
-                for (i = 0; i < 9; i++)
-                    if (board[i].includes("")) emptyCell = true;
-
-                console.log(emptyCell);
-
-                if (!emptyCell) {
-                    if (isValidSudoku(board))
-                        document.getElementsByClassName("board")[0].innerHTML =
-                        "YOU SOLVED IT!";
-                }
-            });
-        });
     </script>
 </body>
 
