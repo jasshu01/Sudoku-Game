@@ -293,15 +293,6 @@
         document
             .getElementById("ResetGame")
             .addEventListener("click", function() {
-                // document.getElementById("StartGame").style.display = "block";
-                // document.getElementById("ResetGame").style.display = "block";
-                // document.getElementById("duration").style.display = "none";
-                // for (i = 0; i < 9; i++)
-                //     for (j = 0; j < 9; j++) board[i][j] = "";
-
-                // for (i = 0; i < 81; i++) {
-                //     miniBoxes[i].innerText = "";
-                // }
                 location.reload();
             });
         // assignEvents();
@@ -314,7 +305,7 @@
                             locked = false;
                             clear(currIndex);
                         }
-                        miniElement.innerText = "1";
+                        miniElement.innerText = 1;
                         show(index, "yellow");
                         currElement = miniElement;
                         locked = true;
@@ -354,12 +345,18 @@
                     for (i = 0; i < 9; i++)
                         if (board[i].includes("")) emptyCell = true;
 
-                        // console.log(emptyCell);
+                    console.log("emptycell", emptyCell);
 
                     if (!emptyCell) {
-                        if (isValidSudoku(board))
-                            document.getElementsByClassName("board")[0].innerHTML =
-                            "YOU SOLVED IT!";
+                        if (isValidSudoku(board)) {
+                            document.getElementById("dur").style.display = "none";
+                            document.getElementsByClassName("game")[0].style.padding =
+                                "5vh";
+                            document.getElementsByClassName("game")[0].innerHTML =
+                                '<div style="width:100vw" ><h1> YOU SOLVED IT! </h1></div><h2 style="width:100vw"> Time Taken: ' +
+                                document.getElementById("duration").innerHTML +
+                                "</h2>";
+                        }
                     }
                 });
             });
@@ -387,7 +384,20 @@
                 index1 = Math.floor(pos / 9);
                 index2 = pos - index1 * 9;
                 // //console.log(pos, index1, index2);
+
                 board[index1][index2] = val;
+
+                // board = [
+                //     ["", 3, 4, 6, 7, 8, 9, 1, 2],
+                //     [6, 7, 2, 1, 9, 5, 3, 4, 8],
+                //     [1, 9, 8, 3, 4, 2, 5, 6, 7],
+                //     [8, 5, 9, 7, 6, 1, 4, 2, 3],
+                //     [4, 2, 6, 8, 5, 3, 7, 9, 1],
+                //     [7, 1, 3, 9, 2, 4, 8, 5, 6],
+                //     [9, 6, 1, 5, 3, 7, 2, 8, 4],
+                //     [2, 8, 7, 4, 1, 9, 6, 3, 5],
+                //     [3, 4, 5, 2, 8, 6, 1, 7, 9],
+                // ];
 
                 positions.push(pos);
                 values.push(val);
